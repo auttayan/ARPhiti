@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR Cultural Knowledge</title>
-    <!-- Google Fonts: Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -20,300 +16,190 @@
             --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.2);
         }
-        
         * { box-sizing: border-box; }
-        
         body {
-            margin: 0;
-            font-family: 'Prompt', sans-serif; /* เปลี่ยนเป็นฟอนต์ Prompt */
-            color: var(--text-light);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            padding-bottom: 90px;
-            /* Liquid Effect Background */
+            margin: 0; font-family: 'Prompt', sans-serif;
+            color: var(--text-light); min-height: 100vh;
+            display: flex; flex-direction: column; overflow-x: hidden;
+            padding-bottom: 110px; /* เพิ่มระยะเผื่อ Footer และ Bottom Nav */
             background: linear-gradient(-45deg, #11052C, #3D087B, #200445, #4A0E4E);
             background-size: 400% 400%;
-            animation: liquidGradient 15s ease infinite;
-            position: relative;
+            animation: liquidGradient 15s ease infinite; position: relative;
         }
 
-        @keyframes liquidGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Fluid Blobs ตกแต่งพื้นหลังแบบ Liquid Glass */
-        .blob {
-            position: fixed;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.5;
-            border-radius: 50%;
-            animation: float 10s ease-in-out infinite;
-        }
+        @keyframes liquidGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .blob { position: fixed; filter: blur(80px); z-index: -1; opacity: 0.5; border-radius: 50%; animation: float 10s ease-in-out infinite; }
         .blob-1 { top: -10%; left: -10%; width: 300px; height: 300px; background: #FF007F; }
         .blob-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: #00F0FF; animation-delay: -5s; }
-
-        @keyframes float {
-            0% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.1); }
-            100% { transform: translateY(0) scale(1); }
-        }
+        @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.1); } 100% { transform: translateY(0) scale(1); } }
 
         .container { max-width: 600px; margin: 0 auto; padding: 20px; width: 100%; position: relative; z-index: 1; }
-
-        /* Liquid Glass Panel */
+        
         .liquid-glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            padding: 25px;
+            background: var(--glass-bg); backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); padding: 25px;
         }
 
-        /* Typography */
         .hero-text { font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
         .text-yellow { color: var(--primary-yellow); text-shadow: 0 0 10px rgba(255, 204, 0, 0.5); }
         .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 25px; font-weight: 300; }
+        .cover-img { width: 100%; border-radius: 20px; margin-bottom: 20px; border: 1px solid var(--glass-border); }
 
-        .cover-img {
-            width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            border: 1px solid var(--glass-border);
-        }
-
-        /* Buttons */
         .btn-glass {
-            background: linear-gradient(135deg, rgba(255,204,0,0.9), rgba(255,153,0,0.9));
-            color: #11052C;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            font-family: 'Prompt', sans-serif;
-            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.3);
+            background: linear-gradient(135deg, #ffcc00, #ff8800); color: #11052C;
+            border: none; padding: 15px 30px; border-radius: 30px;
+            font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.3); font-family: 'Prompt', sans-serif;
         }
         .btn-glass:active { transform: scale(0.95); }
         .btn-cancel { background: rgba(255,255,255,0.1); color: #fff; box-shadow: none; border: 1px solid var(--glass-border); }
 
-        /* Camera */
-        #camera-screen video {
-            width: 100%;
-            border-radius: 24px;
-            background-color: #000;
-            margin-bottom: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            object-fit: cover;
-        }
+        #camera-screen video { width: 100%; border-radius: 24px; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover; }
 
-        /* Knowledge Card */
+        /* แก้ไขสัดส่วนแผ่นความรู้ */
         .card-wrapper {
-            background: #ffffff;
-            border-radius: 24px;
-            color: #1a1a1a;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
+            background: #ffffff; border-radius: 24px; color: #1a1a1a;
+            overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-bottom: 20px;
         }
-        .card-img-container { width: 100%; height: 250px; overflow: hidden; background: #eee;}
-        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-img-container {
+            width: 100%; 
+            background: #111; /* พื้นหลังสีเข้มเวลาภาพไม่เต็มขอบ */
+            display: flex; justify-content: center; align-items: center;
+        }
+        .card-img-container img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: contain; /* ป้องกันภาพโดนบีบ */
+            display: block;
+        }
+        
         .card-body { padding: 25px; }
-        .card-tag {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            color: #3D087B;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
+        .card-tag { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); color: #3D087B; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
         .card-title { font-size: 1.5rem; font-weight: 700; margin: 0 0 15px 0; color: #1a1a1a; }
         .card-desc { font-size: 0.95rem; line-height: 1.6; color: #444; font-weight: 300; }
-        .card-footer-credit {
-            background-color: #f8f9fa;
-            color: #666;
-            text-align: center;
-            padding: 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border-top: 1px solid #eee;
+        .card-footer-credit { background-color: #f8f9fa; color: #666; text-align: center; padding: 12px; font-size: 0.8rem; font-weight: 500; border-top: 1px solid #eee; }
+
+        /* Footer หน้าเว็บรวม */
+        .web-footer {
+            position: absolute; bottom: 85px; left: 0; width: 100%;
+            text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.6);
+            z-index: 10;
         }
 
         /* Bottom Nav */
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            background: rgba(17, 5, 44, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 15px 0 25px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(17, 5, 44, 0.85); backdrop-filter: blur(20px);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 15px 0 25px 0; border-top: 1px solid rgba(255,255,255,0.1);
+            border-top-left-radius: 30px; border-top-right-radius: 30px; z-index: 1000;
         }
-        .nav-item {
-            color: rgba(255,255,255,0.5);
-            text-align: center;
-            font-size: 0.75rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-        }
+        .nav-item { color: rgba(255,255,255,0.5); text-align: center; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; cursor:pointer;}
         .nav-item i { font-size: 1.3rem; }
         .nav-item.active { color: var(--primary-yellow); }
         .nav-scan-btn {
             background: linear-gradient(135deg, #ffcc00, #ff8800);
-            width: 65px; height: 65px;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            color: #11052C;
-            font-size: 2rem;
-            transform: translateY(-25px);
-            box-shadow: 0 10px 25px rgba(255, 153, 0, 0.4);
-            border: 6px solid #1A0A3A;
-            cursor: pointer;
+            width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: #11052C; font-size: 2rem; transform: translateY(-25px); box-shadow: 0 10px 25px rgba(255, 153, 0, 0.4);
+            border: 6px solid #1A0A3A; cursor: pointer;
         }
 
         .hidden { display: none !important; }
-
-        /* ปรับแต่ง SweetAlert2 สไตล์ Glassmorphism */
-        .swal-glass {
-            background: rgba(30, 15, 45, 0.85) !important;
-            backdrop-filter: blur(15px) !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            border-radius: 25px !important;
-            color: white !important;
-            font-family: 'Prompt', sans-serif !important;
-        }
+        
+        .swal-glass { background: rgba(30, 15, 45, 0.85) !important; backdrop-filter: blur(15px) !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 25px !important; color: white !important; font-family: 'Prompt', sans-serif !important; }
         .swal-title { color: var(--primary-yellow) !important; }
-        .swal-confirm-btn {
-            background: linear-gradient(135deg, #ffcc00, #ff8800) !important;
-            color: #11052C !important;
-            border-radius: 20px !important;
-            font-family: 'Prompt', sans-serif !important;
-            font-weight: 600 !important;
-        }
+        .swal-confirm-btn { background: linear-gradient(135deg, #ffcc00, #ff8800) !important; color: #11052C !important; border-radius: 20px !important; font-weight: 600 !important; font-family: 'Prompt', sans-serif !important;}
     </style>
 </head>
 <body>
 
-<!-- Liquid Blobs -->
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
 <div class="container">
-    
-    <!-- หน้าแรก -->
-    <div id="home-screen" class="liquid-glass text-center">
-        <div class="hero-text">
-            Cultural <br>
-            <span class="text-yellow">Knowledge AR</span>
-        </div>
+    <div id="home-screen" class="liquid-glass text-center hidden">
+        <div class="hero-text">Cultural <br><span class="text-yellow">Knowledge AR</span></div>
         <p class="subtitle">ระบบประมวลผลและสร้างแผ่นความรู้อัตโนมัติ สำหรับพิธีการศพที่ได้รับพระราชทาน ศาสนพิธี และศิลปวัฒนธรรม</p>
         <img src="https://i.postimg.cc/q7vF4Bnd/n-xngph-th-AR-ph-ch-wy-AI-re-xng-saeng.png" alt="Cover" class="cover-img">
-        <button class="btn-glass" onclick="openCameraUI()">
-            <i class="fa-solid fa-camera-retro"></i> สแกน AR วิเคราะห์ภาพ
-        </button>
+        <button class="btn-glass" onclick="openCameraUI()"><i class="fa-solid fa-camera-retro"></i> สแกนภาพวิเคราะห์</button>
     </div>
 
-    <!-- หน้ากล้อง -->
     <div id="camera-screen" class="hidden liquid-glass text-center">
         <h3 style="margin-top:0; font-weight: 500;">เล็งไปที่วัตถุหรือพิธีการ</h3>
-        <!-- ใส่ playsinline ช่วยให้อุปกรณ์ iOS เปิดกล้องในหน้าเว็บได้เลย -->
         <video id="videoElement" autoplay playsinline muted></video>
         <canvas id="canvasElement" class="hidden"></canvas>
-        
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button class="btn-glass" onclick="captureAndProcess()">
-                <i class="fa-solid fa-microchip"></i> ประมวลผล AI
-            </button>
+            <button class="btn-glass" onclick="captureAndProcess()"><i class="fa-solid fa-microchip"></i> ประมวลผลภาพ</button>
             <button class="btn-glass btn-cancel" onclick="resetToHome()">ยกเลิก</button>
         </div>
     </div>
 
-    <!-- หน้าแสดงผล -->
     <div id="result-screen" class="hidden">
         <div id="knowledge-card" class="card-wrapper">
             <div class="card-img-container">
                 <img id="result-img" src="" alt="Captured">
             </div>
             <div class="card-body">
-                <div class="card-tag"><i class="fa-solid fa-landmark-dome"></i> องค์ความรู้ AR</div>
+                <div class="card-tag" id="status-tag"><i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI</div>
                 <h2 class="card-title" id="result-title">ชื่อหัวข้อ</h2>
                 <div class="card-desc" id="result-desc">รายละเอียดข้อมูล...</div>
             </div>
-            <div class="card-footer-credit">
-                อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม : ผู้พัฒนาระบบ
-            </div>
+            <div class="card-footer-credit">อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม : ผู้พัฒนาระบบ</div>
         </div>
         
         <div style="display: flex; gap:10px; flex-direction: column;">
-            <button class="btn-glass" onclick="downloadKnowledgeCard()">
-                <i class="fa-solid fa-download"></i> บันทึกเป็นภาพ
-            </button>
-            <button class="btn-glass btn-cancel" onclick="resetToHome()">สแกนภาพใหม่</button>
+            <button class="btn-glass" onclick="manualDownloadCard()"><i class="fa-solid fa-download"></i> ดาวน์โหลดรูปภาพ</button>
+            <button class="btn-glass btn-cancel" onclick="resetToHome()">สแกนใหม่</button>
         </div>
     </div>
-
 </div>
 
-<!-- Bottom Navigation -->
+<footer class="web-footer">
+    พัฒนาระบบโดย: อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม
+</footer>
+
 <div class="bottom-nav">
-    <div class="nav-item active" onclick="resetToHome()">
-        <i class="fa-solid fa-house"></i>
-        <span>หน้าแรก</span>
-    </div>
-    <div class="nav-scan-btn" onclick="openCameraUI()">
-        <i class="fa-solid fa-qrcode"></i>
-    </div>
-    <!-- เปลี่ยนเมนู History เป็น น้องพิธี AI ตามคำขอ -->
-    <a href="https://script.google.com/macros/s/AKfycbyvBPebizh3MzAbyy9MBJm7U8tY_UznfqgdYWtZvlIl3fhOD9OCmt7urdNLZy06opsC/exec" class="nav-item" style="text-decoration:none;">
-        <i class="fa-solid fa-robot"></i>
-        <span>น้องพิธี AI</span>
-    </a>
+    <div class="nav-item active" onclick="resetToHome()"><i class="fa-solid fa-house"></i><span>หน้าแรก</span></div>
+    <div class="nav-scan-btn" onclick="openCameraUI()"><i class="fa-solid fa-qrcode"></i></div>
+    <a href="https://script.google.com/macros/s/AKfycbyvBPebizh3MzAbyy9MBJm7U8tY_UznfqgdYWtZvlIl3fhOD9OCmt7urdNLZy06opsC/exec" class="nav-item" style="text-decoration:none;"><i class="fa-solid fa-robot"></i><span>น้องพิธี AI</span></a>
 </div>
 
 <script>
-    // URL ของ Web App GAS (ใส่ URL ของคุณที่นี่)
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec";
+    // ***************************************************************
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec"; // นำ URL ใหม่มาใส่
+    // ***************************************************************
 
+    let dbCache = []; // เก็บฐานข้อมูลเพื่อเช็คภาพซ้ำ
     const video = document.getElementById('videoElement');
     const canvas = document.getElementById('canvasElement');
     let stream = null;
 
-    // SweetAlert2 แบบ Custom Glass Theme
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        customClass: { popup: 'swal-glass' }
-    });
+    // เริ่มต้นระบบ: แสดง Popup อธิบาย ก่อนเข้าเว็บ
+    window.onload = () => {
+        Swal.fire({
+            title: 'ยินดีต้อนรับสู่ระบบ AR',
+            html: `ระบบนี้ใช้สำหรับสแกนภาพและวิเคราะห์องค์ความรู้ด้าน<br><b>ศาสนพิธี และศิลปวัฒนธรรม</b><br><br>
+                   <small style="color:#aaa;">* เมื่อถ่ายภาพ ระบบจะวิเคราะห์ สร้างแผ่นความรู้ และบันทึกรูปภาพไว้ในฐานข้อมูลอัตโนมัติ</small>`,
+            icon: 'info',
+            confirmButtonText: '<i class="fa-solid fa-check"></i> รับทราบและเข้าสู่ระบบ',
+            allowOutsideClick: false,
+            customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn' }
+        }).then(() => {
+            document.getElementById('home-screen').classList.remove('hidden');
+            loadDatabaseCache(); // โหลดฐานข้อมูลภาพซ้ำในพื้นหลัง
+        });
+    };
+
+    // ฟังก์ชันโหลดข้อมูลที่เคยสแกนจาก GAS
+    async function loadDatabaseCache() {
+        try {
+            const response = await fetch(GAS_URL);
+            dbCache = await response.json();
+            console.log(`Loaded ${dbCache.length} cached items.`);
+        } catch (e) { console.log("Cache load failed."); }
+    }
 
     function showScreen(screenId) {
         document.getElementById('home-screen').classList.add('hidden');
@@ -327,116 +213,129 @@
         showScreen('home-screen');
     }
 
-    // ฟังก์ชันเปิดกล้อง (ปรับให้อนุญาตเข้าถึงได้ทุกอุปกรณ์)
     async function openCameraUI() {
         showScreen('camera-screen');
         try {
-            // ลองบังคับกล้องหลังก่อน
-            stream = await navigator.mediaDevices.getUserMedia({ 
-                video: { facingMode: { exact: "environment" } } 
-            });
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } });
             video.srcObject = stream;
         } catch (err) {
-            // Fallback: ถ้าอุปกรณ์ไม่มีกล้องหลัง(เช่น PC) หรือบังคับไม่ได้ ให้ใช้กล้องตัวใดก็ได้แทน
             try {
                 stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
-            } catch (fallbackErr) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'เปิดกล้องไม่ได้!',
-                    text: 'กรุณาอนุญาตการเข้าถึงกล้องถ่ายรูป หรือใช้งานบนบราวเซอร์ที่รองรับ HTTPS',
-                    customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn' }
-                });
+            } catch (err2) {
+                Swal.fire({ icon: 'error', title: 'เปิดกล้องไม่ได้!', text: 'กรุณาอนุญาตกล้อง', customClass: { popup: 'swal-glass', confirmButton: 'swal-confirm-btn' }});
                 resetToHome();
             }
         }
+    }
+
+    // อัลกอริทึม dHash (แปลงภาพเป็นค่า 64-bit เพื่อตรวจภาพซ้ำ)
+    async function getDHash(base64Image) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = base64Image;
+            img.onload = () => {
+                const cvs = document.createElement('canvas');
+                cvs.width = 9; cvs.height = 8;
+                const ctx = cvs.getContext('2d');
+                ctx.drawImage(img, 0, 0, 9, 8);
+                const data = ctx.getImageData(0, 0, 9, 8).data;
+                let hash = '';
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 8; x++) {
+                        const idx1 = ((y * 9) + x) * 4, idx2 = ((y * 9) + x + 1) * 4;
+                        const g1 = data[idx1]*0.299 + data[idx1+1]*0.587 + data[idx1+2]*0.114;
+                        const g2 = data[idx2]*0.299 + data[idx2+1]*0.587 + data[idx2+2]*0.114;
+                        hash += (g1 > g2) ? '1' : '0';
+                    }
+                }
+                resolve(hash);
+            };
+        });
+    }
+
+    // เทียบความเหมือนของภาพ (Hamming Distance)
+    function hammingDistance(h1, h2) {
+        let dist = 0;
+        for (let i = 0; i < 64; i++) { if (h1[i] !== h2[i]) dist++; }
+        return dist;
     }
 
     async function captureAndProcess() {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0);
         const base64Image = canvas.toDataURL('image/jpeg', 0.8);
-        
         if (stream) { stream.getTracks().forEach(track => track.stop()); }
-        showScreen('home-screen'); // ซ่อนกล้องระหว่างโหลด
-        
+        showScreen('home-screen');
+
         Swal.fire({
-            title: 'AI กำลังประมวลผล...',
-            html: 'กรุณารอสักครู่ ระบบกำลังค้นหาองค์ความรู้ <br><br> <i class="fa-solid fa-spinner fa-spin fa-2x text-yellow"></i>',
-            allowOutsideClick: false,
-            showConfirmButton: false,
+            title: 'กำลังตรวจสอบข้อมูล...',
+            html: '<i class="fa-solid fa-spinner fa-spin fa-2x text-yellow"></i>',
+            allowOutsideClick: false, showConfirmButton: false,
             customClass: { popup: 'swal-glass', title: 'swal-title' }
         });
 
-        try {
-            const response = await fetch(GAS_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ image: base64Image })
-            });
+        // 1. ตรวจจับภาพซ้ำโดยใช้ dHash
+        const currentHash = await getDHash(base64Image);
+        let matchedItem = null;
+        for (let item of dbCache) {
+            if (hammingDistance(currentHash, item.hash) <= 12) { // หากความต่างของภาพ < 12 ถือว่าซ้ำ
+                matchedItem = item; break;
+            }
+        }
 
-            const result = await response.json();
-            Swal.close();
-
-            if (result.status === 'success') {
-                document.getElementById('result-img').src = base64Image;
-                document.getElementById('result-title').innerText = result.title;
-                document.getElementById('result-desc').innerText = result.description;
+        if (matchedItem) {
+            // ดึงจากฐานข้อมูล ไม่ใช้ AI
+            document.getElementById('status-tag').innerHTML = '<i class="fa-solid fa-database"></i> ดึงจากฐานข้อมูล';
+            document.getElementById('result-title').innerText = matchedItem.title;
+            document.getElementById('result-desc').innerText = matchedItem.description;
+            document.getElementById('result-img').src = base64Image;
+            showScreen('result-screen');
+            Swal.fire({ icon: 'success', title: 'ดึงข้อมูลสำเร็จ!', text: 'พบประวัติในระบบ ไม่ต้องประมวลผลใหม่', timer: 2000, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' }});
+        } else {
+            // ไม่พบภาพซ้ำ -> ใช้ AI
+            document.getElementById('status-tag').innerHTML = '<i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI';
+            try {
+                Swal.update({ title: 'AI กำลังวิเคราะห์และจัดทำแผ่นความรู้...' });
+                const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "analyze", image: base64Image }) });
+                const aiResult = await res.json();
                 
+                if (aiResult.error) throw new Error(aiResult.error);
+
+                document.getElementById('result-title').innerText = aiResult.title;
+                document.getElementById('result-desc').innerText = aiResult.description;
+                document.getElementById('result-img').src = base64Image;
                 showScreen('result-screen');
-                Toast.fire({ icon: 'success', title: 'ประมวลผลเสร็จสิ้น!' });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'เกิดข้อผิดพลาด',
-                    text: result.message,
-                    customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn' }
-                });
+                
+                // ถ่ายภาพแผ่นความรู้และส่งไปบันทึกลงฐานข้อมูล(Sheet+Drive) อัตโนมัติ
+                setTimeout(() => { autoSaveKnowledgeCard(currentHash, aiResult.title, aiResult.description); }, 800);
+            } catch (error) {
+                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: error.message, customClass: { popup: 'swal-glass', confirmButton: 'swal-confirm-btn' }});
                 resetToHome();
             }
-        } catch (error) {
-            Swal.close();
-            Swal.fire({
-                icon: 'error',
-                title: 'การเชื่อมต่อล้มเหลว',
-                text: 'เซิร์ฟเวอร์ไม่ตอบสนอง กรุณาลองใหม่อีกครั้ง',
-                customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn' }
-            });
-            resetToHome();
         }
     }
 
-    function downloadKnowledgeCard() {
-        const cardElement = document.getElementById('knowledge-card');
-        
-        Swal.fire({
-            title: 'กำลังสร้างภาพ...',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => { Swal.showLoading(); },
-            customClass: { popup: 'swal-glass', title: 'swal-title' }
+    // ฟังก์ชันถ่ายแผ่นความรู้และบันทึก Background
+    function autoSaveKnowledgeCard(hash, title, desc) {
+        html2canvas(document.getElementById('knowledge-card'), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
+            const cardBase64 = canvas.toDataURL('image/png');
+            fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "save", hash: hash, title: title, description: desc, cardImage: cardBase64 }) })
+            .then(() => {
+                Swal.fire({ icon: 'success', title: 'บันทึกฐานข้อมูลสำเร็จ!', timer: 2000, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' }});
+                // เพิ่มเข้า Cache ทันทีเผื่อสแกนซ้ำรอบถัดไป
+                dbCache.push({ hash: hash, title: title, description: desc });
+            });
         });
+    }
 
-        html2canvas(cardElement, {
-            scale: 2, 
-            backgroundColor: "#ffffff",
-            useCORS: true
-        }).then(canvas => {
+    // ฟังก์ชันดาวน์โหลดเก็บลงเครื่องด้วยตนเอง
+    function manualDownloadCard() {
+        html2canvas(document.getElementById('knowledge-card'), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
             const link = document.createElement('a');
             link.download = 'Knowledge_Card_' + new Date().getTime() + '.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
-            
-            Swal.close();
-            Swal.fire({
-                icon: 'success',
-                title: 'บันทึกสำเร็จ!',
-                text: 'รูปภาพแผ่นความรู้ถูกบันทึกแล้ว',
-                confirmButtonText: 'ตกลง',
-                customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn' }
-            });
         });
     }
 </script>
