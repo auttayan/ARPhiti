@@ -56,7 +56,7 @@
 
         #camera-screen video { width: 100%; border-radius: 24px; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover; border: 2px solid var(--primary-yellow); margin-bottom: 15px;}
 
-        /* Card รูปภาพสัดส่วน 100% ไม่จำกัดความสูง */
+        /* ================== Card (รูปภาพ 100% สัดส่วนเดิม ห้ามตัดเด็ดขาด) ================== */
         .card-wrapper { background: #ffffff; border-radius: 24px; color: #1a1a1a; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 20px; }
         .card-img-container { 
             width: 100%; background: #111; 
@@ -65,17 +65,20 @@
         }
         .card-img-container img { 
             width: 100%; 
-            height: auto; /* รักษาความสูงตามสัดส่วนเดิม 100% */
+            height: auto !important; 
+            max-height: none !important; /* ปลดล็อกความสูง 100% */
+            object-fit: contain; 
             display: block; 
         }
         .card-body { padding: 25px; }
         .card-tag { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); color: #3D087B; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
         .card-title { font-size: 1.5rem; font-weight: 700; margin: 0 0 15px 0; color: #1a1a1a; }
+        
         .card-desc { font-size: 0.95rem; line-height: 1.7; color: #333; text-align: justify; }
         .card-desc br { display: block; margin-bottom: 8px; content: " "; }
         .card-footer-credit { background-color: #f8f9fa; color: #555; text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 500; border-top: 1px solid #eee; }
 
-        /* Card แบบย่อ */
+        /* Card แบบย่อ (ลดแค่ตัวหนังสือ รูปยังแสดงผลเต็มสัดส่วนเหมือนเดิม) */
         .card-wrapper.compact .card-body { padding: 15px 20px; }
         .card-wrapper.compact .card-title { font-size: 1.25rem; margin-bottom: 8px; }
         .card-wrapper.compact .card-desc { font-size: 0.85rem; line-height: 1.5; }
@@ -160,7 +163,7 @@
             <div class="card-img-container"><img id="result-img" src="" alt="Captured"></div>
             <div class="card-body">
                 <div class="card-tag" id="status-tag"><i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI</div>
-                <h2 class="card-title" id="result-title">ชื่อหัวข้อ</h2>
+                <h2 class="card-title" id="result-title">ชื่อสิ่งของหรือพิธีการ</h2>
                 <div class="card-desc" id="result-desc">รายละเอียดข้อมูล...</div>
             </div>
             <div class="card-footer-credit"><i class="fa-solid fa-bookmark"></i> อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม</div>
@@ -256,9 +259,7 @@
         }
     }
 
-    // Popup สำหรับเลือกระดับความละเอียดก่อนประมวลผล
     async function showFormatSelectorPopup() {
-        // ถ่ายภาพแช่ไว้ก่อนเพื่อไม่ให้ภาพขยับตอนเลือกระดับ
         canvas.width = video.videoWidth; canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0);
         
@@ -272,25 +273,19 @@
                 </div>
                 <p style="font-size:0.8rem; color:#aaa; margin-top:15px; margin-bottom:0;">*กรุณาคลิกเลือกรูปแบบเพื่อเริ่มการประมวลผล</p>
             `,
-            showConfirmButton: false,
-            showCancelButton: true,
-            cancelButtonText: 'ยกเลิก',
-            allowOutsideClick: false,
+            showConfirmButton: false, showCancelButton: true, cancelButtonText: 'ยกเลิก', allowOutsideClick: false,
             customClass: { popup: 'swal-glass', title: 'swal-title', cancelButton: 'btn-cancel' },
             preConfirm: () => { return window.tempFormat; }
         });
 
-        if (formatResult.isDismissed) {
-            return; // ถ้ายกเลิก ให้อยู่หน้ากล้องเหมือนเดิม
-        }
+        if (formatResult.isDismissed) return; 
 
         currentFormat = formatResult.value;
         const base64Image = canvas.toDataURL('image/jpeg', 0.8);
         
         if (stream) { stream.getTracks().forEach(track => track.stop()); }
-        showScreen('home-screen'); // ซ่อน UI เปลี่ยนหน้า
+        showScreen('home-screen'); 
         
-        // ส่งภาพไปประมวลผลทันที
         processImageAPI(base64Image, currentFormat);
     }
 
@@ -326,7 +321,7 @@
             allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' },
             didOpen: () => {
                 const info = document.getElementById('swal-info'); const eta = document.getElementById('swal-eta');
-                const msgs = ["ประมวลผล...", "ค้นหาแหล่งอ้างอิง...", "จัดเรียงเนื้อหา...", "เตรียมแผ่นความรู้..."]; let idx = 0; let timeLeft = 18;
+                const msgs = ["กำลังวิเคราะห์ภาพ...", "ดึงข้อมูลอ้างอิง...", "จัดเรียงเนื้อหา...", "เตรียมแผ่นความรู้..."]; let idx = 0; let timeLeft = 18;
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     if(timeLeft > 0) eta.innerText = `ETA: ${timeLeft} วินาที`; else eta.innerText = "ดำเนินการขั้นตอนสุดท้าย...";
