@@ -46,11 +46,11 @@
         .subtitle { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-bottom: 25px; font-weight: 300; }
         .cover-img { width: 100%; border-radius: 20px; margin-bottom: 25px; border: 1px solid var(--glass-border); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* Format Selector */
-        .format-selector { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+        /* ตัวเลือก Format 3 ระดับ */
+        .format-selector { display: flex; gap: 8px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
         .format-btn {
-            flex: 1; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; color: #ccc;
+            flex: 1; min-width: 80px; padding: 8px 5px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; color: #ccc; font-size: 0.85rem;
         }
         .format-btn.active { background: var(--primary-yellow); color: #11052C; font-weight: bold; border-color: var(--primary-yellow); box-shadow: 0 5px 15px rgba(255,204,0,0.4); }
 
@@ -64,36 +64,41 @@
 
         #camera-screen video { width: 100%; border-radius: 24px; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover; border: 2px solid var(--primary-yellow); margin-bottom: 15px;}
 
-        /* Knowledge Card */
+        /* Card: รูปภาพแสดงผลสัดส่วน 100% ไม่ถูกตัด/ย่อ */
         .card-wrapper { background: #ffffff; border-radius: 24px; color: #1a1a1a; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 20px; }
-        .card-img-container { width: 100%; background: #111; padding: 15px; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #eee; }
-        .card-img-container img { width: 100%; max-height: 400px; object-fit: contain; border-radius: 12px; display: block; }
+        .card-img-container { 
+            width: 100%; background: #111; 
+            border-bottom: 1px solid #eee;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .card-img-container img { 
+            width: 100%; 
+            height: auto; /* ปลดล็อกความสูง ให้เป็นสัดส่วนเดิมเสมอ */
+            display: block; 
+        }
         .card-body { padding: 25px; }
         .card-tag { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); color: #3D087B; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
         .card-title { font-size: 1.5rem; font-weight: 700; margin: 0 0 15px 0; color: #1a1a1a; }
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: #444; text-align: justify; }
+        /* กำหนดให้ย่อหน้าในรายละเอียดห่างกัน เพื่อให้อ่านง่าย */
+        .card-desc { font-size: 0.95rem; line-height: 1.7; color: #333; text-align: justify; }
+        .card-desc br { display: block; margin-bottom: 8px; content: " "; }
         .card-footer-credit { background-color: #f8f9fa; color: #555; text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 500; border-top: 1px solid #eee; }
 
-        /* Card Compact */
-        .card-wrapper.compact .card-img-container img { max-height: 220px; }
+        /* Card แบบย่อ (ลดแค่ padding กับฟอนต์ รูปภาพยังคงเดิม) */
         .card-wrapper.compact .card-body { padding: 15px 20px; }
         .card-wrapper.compact .card-title { font-size: 1.25rem; margin-bottom: 8px; }
-        .card-wrapper.compact .card-desc { font-size: 0.85rem; line-height: 1.4; }
+        .card-wrapper.compact .card-desc { font-size: 0.85rem; line-height: 1.5; }
 
         /* ================= Admin UI ================= */
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        
-        /* สถิติ Dashboard */
         .admin-stats { display: flex; gap: 10px; margin-bottom: 20px; }
         .stat-box { flex: 1; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-yellow); border-radius: 15px; padding: 10px 5px; text-align: center; }
         .stat-num { font-size: 1.5rem; font-weight: 700; color: var(--primary-yellow); line-height: 1; margin-bottom: 5px; }
         .stat-label { font-size: 0.7rem; color: #ddd; }
         
-        /* ฟิลเตอร์ Admin */
         .admin-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .admin-input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.4); color: white; font-family: 'Prompt'; }
         
-        /* Card ข้อมูล Admin */
         .admin-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px;}
         .admin-card-title { color: var(--primary-yellow); font-weight: 600; font-size: 1.1rem; }
         .admin-card-info { font-size: 0.8rem; color: #ccc; }
@@ -150,14 +155,20 @@
     <!-- หน้ากล้อง -->
     <div id="camera-screen" class="hidden liquid-glass text-center fade-in">
         <h3 style="margin-top:0; font-weight: 500;">เล็งกล้องไปที่วัตถุหรือพิธีการ</h3>
+        
+        <!-- ตัวเลือกระดับความละเอียด -->
         <div class="format-selector">
             <div class="format-btn active" id="btn-format-compact" onclick="setFormat('compact')">
-                <i class="fa-solid fa-mobile-screen"></i> แบบย่อ
+                <i class="fa-solid fa-mobile-screen"></i> สรุปย่อ
             </div>
             <div class="format-btn" id="btn-format-full" onclick="setFormat('full')">
-                <i class="fa-solid fa-book-open"></i> แบบเต็ม
+                <i class="fa-solid fa-align-justify"></i> 3 ย่อหน้า
+            </div>
+            <div class="format-btn" id="btn-format-detailed" onclick="setFormat('detailed')">
+                <i class="fa-solid fa-book-open"></i> ละเอียดมาก
             </div>
         </div>
+        
         <video id="videoElement" autoplay playsinline muted></video>
         <canvas id="canvasElement" class="hidden"></canvas>
         <div style="display: flex; gap: 10px;">
@@ -173,6 +184,7 @@
             <div class="card-body">
                 <div class="card-tag" id="status-tag"><i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI</div>
                 <h2 class="card-title" id="result-title">ชื่อหัวข้อ</h2>
+                <!-- ใช้การจัด Format ให้เนื้อหาดูเป็นระเบียบ -->
                 <div class="card-desc" id="result-desc">รายละเอียดข้อมูล...</div>
             </div>
             <div class="card-footer-credit"><i class="fa-solid fa-bookmark"></i> อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม</div>
@@ -190,14 +202,12 @@
             <button class="btn-glass btn-cancel" style="padding: 5px 15px; width:auto; font-size:0.8rem;" onclick="resetToHome()">ปิด</button>
         </div>
         
-        <!-- สถิติ Dashboard -->
         <div class="admin-stats">
             <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-label">ทั้งหมด</div></div>
             <div class="stat-box"><div class="stat-num" id="stat-month">0</div><div class="stat-label">เดือนนี้</div></div>
             <div class="stat-box"><div class="stat-num" id="stat-today">0</div><div class="stat-label">วันนี้</div></div>
         </div>
 
-        <!-- ตัวกรองข้อมูล -->
         <div class="admin-filters">
             <input type="date" id="filter-date" class="admin-input" onchange="renderAdminCards()">
             <input type="month" id="filter-month" class="admin-input" onchange="renderAdminCards()">
@@ -220,7 +230,7 @@
     const GAS_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec";
 
     let dbCache = [];
-    let filteredCache = []; // ตัวแปรสำหรับเก็บข้อมูลที่ถูกกรอง
+    let filteredCache = []; 
     const video = document.getElementById('videoElement');
     const canvas = document.getElementById('canvasElement');
     let stream = null;
@@ -249,8 +259,7 @@
 
     function setFormat(format) {
         currentFormat = format;
-        document.getElementById('btn-format-compact').classList.remove('active');
-        document.getElementById('btn-format-full').classList.remove('active');
+        document.querySelectorAll('.format-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-format-' + format).classList.add('active');
     }
 
@@ -277,7 +286,7 @@
         }
     }
 
-    async function getDHash(base64Image) { /* โค้ด dHash เหมือนเดิม */
+    async function getDHash(base64Image) {
         return new Promise((resolve) => {
             const img = new Image(); img.src = base64Image;
             img.onload = () => {
@@ -311,11 +320,11 @@
         let timerInterval;
         Swal.fire({
             title: 'AI กำลังประมวลผล...',
-            html: `<div id="swal-eta" style="font-size: 1.3rem; color: var(--primary-yellow); font-weight: bold;">ETA: 15 วินาที</div><div id="swal-info" style="font-size: 0.9rem; color: #ddd; height:20px;">กำลังวิเคราะห์ภาพ...</div><i class="fa-solid fa-spinner fa-spin fa-3x" style="color:var(--primary-yellow); margin-top:20px;"></i>`,
+            html: `<div id="swal-eta" style="font-size: 1.3rem; color: var(--primary-yellow); font-weight: bold;">ETA: 18 วินาที</div><div id="swal-info" style="font-size: 0.9rem; color: #ddd; height:20px;">กำลังวิเคราะห์ภาพ...</div><i class="fa-solid fa-spinner fa-spin fa-3x" style="color:var(--primary-yellow); margin-top:20px;"></i>`,
             allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' },
             didOpen: () => {
                 const info = document.getElementById('swal-info'); const eta = document.getElementById('swal-eta');
-                const msgs = ["ประมวลผล...", "ค้นหาแหล่งอ้างอิง...", "จัดเตรียมแผ่นความรู้..."]; let idx = 0; let timeLeft = 15;
+                const msgs = ["ประมวลผล...", "ค้นหาแหล่งอ้างอิง...", "จัดเรียงย่อหน้าเนื้อหา...", "เตรียมแผ่นความรู้..."]; let idx = 0; let timeLeft = 18;
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     if(timeLeft > 0) eta.innerText = `ETA: ${timeLeft} วินาที`; else eta.innerText = "ดำเนินการขั้นตอนสุดท้าย...";
@@ -330,22 +339,25 @@
         for (let item of dbCache) {
             if (hammingDistance(currentHash, item.hash) <= 12 && item.format === currentFormat) { matchedItem = item; break; }
         }
+        
+        let formatLabelText = currentFormat === 'compact' ? 'สรุปย่อ' : (currentFormat === 'detailed' ? 'ละเอียดมาก' : '3 ย่อหน้า');
 
         if (matchedItem) {
-            document.getElementById('status-tag').innerHTML = `<i class="fa-solid fa-database"></i> ดึงจากฐานข้อมูล (${currentFormat})`;
+            document.getElementById('status-tag').innerHTML = `<i class="fa-solid fa-database"></i> ดึงจากฐานข้อมูล (${formatLabelText})`;
             document.getElementById('result-title').innerText = matchedItem.title;
-            document.getElementById('result-desc').innerHTML = matchedItem.description.replace(/\n/g, '<br>');
+            // เพิ่มการขึ้นบรรทัดใหม่ให้สวยงาม
+            document.getElementById('result-desc').innerHTML = matchedItem.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
             document.getElementById('result-img').src = base64Image;
             Swal.close(); showScreen('result-screen');
         } else {
-            document.getElementById('status-tag').innerHTML = `<i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI (${currentFormat})`;
+            document.getElementById('status-tag').innerHTML = `<i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI (${formatLabelText})`;
             try {
                 const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "analyze", image: base64Image, format: currentFormat }) });
                 const aiResult = await res.json();
                 if (aiResult.error) throw new Error(aiResult.error);
 
                 document.getElementById('result-title').innerText = aiResult.title;
-                document.getElementById('result-desc').innerHTML = aiResult.description.replace(/\n/g, '<br>');
+                document.getElementById('result-desc').innerHTML = aiResult.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
                 document.getElementById('result-img').src = base64Image;
                 Swal.close(); showScreen('result-screen');
                 
@@ -372,7 +384,7 @@
         });
     }
 
-    // ================= ระบบ Admin (ปรับปรุงใหม่) =================
+    // ================= ระบบ Admin =================
     function promptAdminLogin() {
         Swal.fire({
             title: 'Admin Login',
@@ -393,47 +405,37 @@
         renderAdminCards();
     }
 
-    // ฟังก์ชันล้างตัวกรอง
     function clearFilters() {
-        document.getElementById('filter-date').value = '';
-        document.getElementById('filter-month').value = '';
+        document.getElementById('filter-date').value = ''; document.getElementById('filter-month').value = '';
         renderAdminCards();
     }
 
-    // คำนวณสถิติ Dashboard
     function calculateDashboardStats() {
-        const total = dbCache.length;
-        const now = new Date();
+        const total = dbCache.length; const now = new Date();
         const thisMonthStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}`;
         const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
         let monthCount = 0; let todayCount = 0;
-        
         dbCache.forEach(item => {
             const d = new Date(item.timestamp);
             const itemMonth = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2, '0')}`;
             const itemDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-            
             if (itemMonth === thisMonthStr) monthCount++;
             if (itemDate === todayStr) todayCount++;
         });
-
         document.getElementById('stat-total').innerText = total;
         document.getElementById('stat-month').innerText = monthCount;
         document.getElementById('stat-today').innerText = todayCount;
     }
 
-    // เรนเดอร์ Card ข้อมูลและจัดการระบบ Filter
     function renderAdminCards() {
         const dateFilter = document.getElementById('filter-date').value;
         const monthFilter = document.getElementById('filter-month').value;
         
-        // กรองข้อมูลตามที่เลือก
         filteredCache = dbCache.filter(item => {
             const d = new Date(item.timestamp);
             const itemDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             const itemMonth = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2, '0')}`;
-            
             if (dateFilter && itemDate !== dateFilter) return false;
             if (monthFilter && itemMonth !== monthFilter) return false;
             return true;
@@ -445,13 +447,14 @@
         container.innerHTML = '';
         filteredCache.forEach((item, index) => {
             const dateStr = new Date(item.timestamp).toLocaleString('th-TH', { dateStyle:'short', timeStyle:'short'});
+            let fLabel = item.format === 'compact' ? 'สรุปย่อ' : (item.format === 'detailed' ? 'ละเอียดมาก' : '3 ย่อหน้า');
             const card = document.createElement('div');
             card.className = 'admin-card';
             card.innerHTML = `
                 <div class="admin-card-title">${item.title}</div>
                 <div class="admin-card-info">
                     <i class="fa-regular fa-calendar"></i> ${dateStr} | 
-                    <i class="fa-solid fa-layer-group"></i> ${item.format === 'compact' ? 'ย่อ' : 'เต็ม'}
+                    <i class="fa-solid fa-layer-group"></i> ${fLabel}
                 </div>
                 <div class="admin-btn-group">
                     <button class="btn-admin btn-admin-text" onclick="viewFullText(${index})"><i class="fa-solid fa-book-open"></i> อ่าน</button>
@@ -463,17 +466,15 @@
         });
     }
 
-    // เปิดอ่านข้อความเต็มรูปแบบ (SweetAlert2)
     function viewFullText(index) {
         const item = filteredCache[index];
         Swal.fire({
             title: `<span style="font-size:1.3rem;">${item.title}</span>`,
             html: `<div style="max-height: 50vh; overflow-y: auto; padding-right:10px; line-height:1.6; font-size:0.95rem;">
-                     ${item.description.replace(/\n/g, '<br>')}
+                     ${item.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>')}
                    </div>`,
             customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn', htmlContainer: 'swal-html-container' },
-            confirmButtonText: 'ปิด',
-            width: '90%'
+            confirmButtonText: 'ปิด', width: '90%'
         });
     }
 
