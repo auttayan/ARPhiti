@@ -46,14 +46,6 @@
         .subtitle { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-bottom: 25px; font-weight: 300; }
         .cover-img { width: 100%; border-radius: 20px; margin-bottom: 25px; border: 1px solid var(--glass-border); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* ตัวเลือก Format 3 ระดับ */
-        .format-selector { display: flex; gap: 8px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-        .format-btn {
-            flex: 1; min-width: 80px; padding: 8px 5px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; color: #ccc; font-size: 0.85rem;
-        }
-        .format-btn.active { background: var(--primary-yellow); color: #11052C; font-weight: bold; border-color: var(--primary-yellow); box-shadow: 0 5px 15px rgba(255,204,0,0.4); }
-
         .btn-glass {
             background: linear-gradient(135deg, #ffcc00, #ff8800); color: #11052C; border: none; padding: 15px 30px; border-radius: 30px;
             font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -64,7 +56,7 @@
 
         #camera-screen video { width: 100%; border-radius: 24px; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover; border: 2px solid var(--primary-yellow); margin-bottom: 15px;}
 
-        /* Card: รูปภาพแสดงผลสัดส่วน 100% ไม่ถูกตัด/ย่อ */
+        /* Card รูปภาพสัดส่วน 100% ไม่จำกัดความสูง */
         .card-wrapper { background: #ffffff; border-radius: 24px; color: #1a1a1a; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 20px; }
         .card-img-container { 
             width: 100%; background: #111; 
@@ -73,23 +65,22 @@
         }
         .card-img-container img { 
             width: 100%; 
-            height: auto; /* ปลดล็อกความสูง ให้เป็นสัดส่วนเดิมเสมอ */
+            height: auto; /* รักษาความสูงตามสัดส่วนเดิม 100% */
             display: block; 
         }
         .card-body { padding: 25px; }
         .card-tag { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); color: #3D087B; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
         .card-title { font-size: 1.5rem; font-weight: 700; margin: 0 0 15px 0; color: #1a1a1a; }
-        /* กำหนดให้ย่อหน้าในรายละเอียดห่างกัน เพื่อให้อ่านง่าย */
         .card-desc { font-size: 0.95rem; line-height: 1.7; color: #333; text-align: justify; }
         .card-desc br { display: block; margin-bottom: 8px; content: " "; }
         .card-footer-credit { background-color: #f8f9fa; color: #555; text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 500; border-top: 1px solid #eee; }
 
-        /* Card แบบย่อ (ลดแค่ padding กับฟอนต์ รูปภาพยังคงเดิม) */
+        /* Card แบบย่อ */
         .card-wrapper.compact .card-body { padding: 15px 20px; }
         .card-wrapper.compact .card-title { font-size: 1.25rem; margin-bottom: 8px; }
         .card-wrapper.compact .card-desc { font-size: 0.85rem; line-height: 1.5; }
 
-        /* ================= Admin UI ================= */
+        /* Admin UI */
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .admin-stats { display: flex; gap: 10px; margin-bottom: 20px; }
         .stat-box { flex: 1; background: rgba(255,255,255,0.1); border: 1px solid var(--primary-yellow); border-radius: 15px; padding: 10px 5px; text-align: center; }
@@ -155,24 +146,10 @@
     <!-- หน้ากล้อง -->
     <div id="camera-screen" class="hidden liquid-glass text-center fade-in">
         <h3 style="margin-top:0; font-weight: 500;">เล็งกล้องไปที่วัตถุหรือพิธีการ</h3>
-        
-        <!-- ตัวเลือกระดับความละเอียด -->
-        <div class="format-selector">
-            <div class="format-btn active" id="btn-format-compact" onclick="setFormat('compact')">
-                <i class="fa-solid fa-mobile-screen"></i> สรุปย่อ
-            </div>
-            <div class="format-btn" id="btn-format-full" onclick="setFormat('full')">
-                <i class="fa-solid fa-align-justify"></i> 3 ย่อหน้า
-            </div>
-            <div class="format-btn" id="btn-format-detailed" onclick="setFormat('detailed')">
-                <i class="fa-solid fa-book-open"></i> ละเอียดมาก
-            </div>
-        </div>
-        
         <video id="videoElement" autoplay playsinline muted></video>
         <canvas id="canvasElement" class="hidden"></canvas>
         <div style="display: flex; gap: 10px;">
-            <button class="btn-glass" onclick="captureAndProcess()"><i class="fa-solid fa-microchip"></i> ประมวลผลภาพ</button>
+            <button class="btn-glass" onclick="showFormatSelectorPopup()"><i class="fa-solid fa-microchip"></i> ประมวลผลภาพ</button>
             <button class="btn-glass btn-cancel" onclick="resetToHome()">ยกเลิก</button>
         </div>
     </div>
@@ -184,7 +161,6 @@
             <div class="card-body">
                 <div class="card-tag" id="status-tag"><i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI</div>
                 <h2 class="card-title" id="result-title">ชื่อหัวข้อ</h2>
-                <!-- ใช้การจัด Format ให้เนื้อหาดูเป็นระเบียบ -->
                 <div class="card-desc" id="result-desc">รายละเอียดข้อมูล...</div>
             </div>
             <div class="card-footer-credit"><i class="fa-solid fa-bookmark"></i> อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม</div>
@@ -234,7 +210,7 @@
     const video = document.getElementById('videoElement');
     const canvas = document.getElementById('canvasElement');
     let stream = null;
-    let currentFormat = 'compact'; 
+    let currentFormat = 'full'; 
 
     window.onload = () => {
         Swal.fire({
@@ -255,12 +231,6 @@
             dbCache.reverse(); 
             filteredCache = [...dbCache];
         } catch (e) { console.log("Cache error."); }
-    }
-
-    function setFormat(format) {
-        currentFormat = format;
-        document.querySelectorAll('.format-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-format-' + format).classList.add('active');
     }
 
     function showScreen(screenId) {
@@ -286,6 +256,44 @@
         }
     }
 
+    // Popup สำหรับเลือกระดับความละเอียดก่อนประมวลผล
+    async function showFormatSelectorPopup() {
+        // ถ่ายภาพแช่ไว้ก่อนเพื่อไม่ให้ภาพขยับตอนเลือกระดับ
+        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        
+        const formatResult = await Swal.fire({
+            title: 'เลือกระดับความละเอียด',
+            html: `
+                <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
+                    <button class="btn-glass" style="font-size:0.95rem; padding:12px;" onclick="Swal.clickConfirm()" onmousedown="window.tempFormat='compact'"><i class="fa-solid fa-mobile-screen"></i> สรุปย่อ (พอดีหน้าจอ)</button>
+                    <button class="btn-glass" style="font-size:0.95rem; padding:12px;" onclick="Swal.clickConfirm()" onmousedown="window.tempFormat='full'"><i class="fa-solid fa-align-justify"></i> 3 ย่อหน้า (มาตรฐาน)</button>
+                    <button class="btn-glass" style="font-size:0.95rem; padding:12px;" onclick="Swal.clickConfirm()" onmousedown="window.tempFormat='detailed'"><i class="fa-solid fa-book-open"></i> ละเอียดมาก (เจาะลึก)</button>
+                </div>
+                <p style="font-size:0.8rem; color:#aaa; margin-top:15px; margin-bottom:0;">*กรุณาคลิกเลือกรูปแบบเพื่อเริ่มการประมวลผล</p>
+            `,
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: 'ยกเลิก',
+            allowOutsideClick: false,
+            customClass: { popup: 'swal-glass', title: 'swal-title', cancelButton: 'btn-cancel' },
+            preConfirm: () => { return window.tempFormat; }
+        });
+
+        if (formatResult.isDismissed) {
+            return; // ถ้ายกเลิก ให้อยู่หน้ากล้องเหมือนเดิม
+        }
+
+        currentFormat = formatResult.value;
+        const base64Image = canvas.toDataURL('image/jpeg', 0.8);
+        
+        if (stream) { stream.getTracks().forEach(track => track.stop()); }
+        showScreen('home-screen'); // ซ่อน UI เปลี่ยนหน้า
+        
+        // ส่งภาพไปประมวลผลทันที
+        processImageAPI(base64Image, currentFormat);
+    }
+
     async function getDHash(base64Image) {
         return new Promise((resolve) => {
             const img = new Image(); img.src = base64Image;
@@ -307,15 +315,9 @@
     }
     function hammingDistance(h1, h2) { let dist = 0; for(let i=0; i<64; i++) { if(h1[i]!==h2[i]) dist++; } return dist; }
 
-    async function captureAndProcess() {
-        canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-        const base64Image = canvas.toDataURL('image/jpeg', 0.8);
-        if (stream) { stream.getTracks().forEach(track => track.stop()); }
-        showScreen('home-screen');
-
+    async function processImageAPI(base64Image, format) {
         const cardUI = document.getElementById('knowledge-card');
-        if(currentFormat === 'compact') cardUI.classList.add('compact'); else cardUI.classList.remove('compact');
+        if(format === 'compact') cardUI.classList.add('compact'); else cardUI.classList.remove('compact');
 
         let timerInterval;
         Swal.fire({
@@ -324,7 +326,7 @@
             allowOutsideClick: false, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' },
             didOpen: () => {
                 const info = document.getElementById('swal-info'); const eta = document.getElementById('swal-eta');
-                const msgs = ["ประมวลผล...", "ค้นหาแหล่งอ้างอิง...", "จัดเรียงย่อหน้าเนื้อหา...", "เตรียมแผ่นความรู้..."]; let idx = 0; let timeLeft = 18;
+                const msgs = ["ประมวลผล...", "ค้นหาแหล่งอ้างอิง...", "จัดเรียงเนื้อหา...", "เตรียมแผ่นความรู้..."]; let idx = 0; let timeLeft = 18;
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     if(timeLeft > 0) eta.innerText = `ETA: ${timeLeft} วินาที`; else eta.innerText = "ดำเนินการขั้นตอนสุดท้าย...";
@@ -337,22 +339,21 @@
         const currentHash = await getDHash(base64Image);
         let matchedItem = null;
         for (let item of dbCache) {
-            if (hammingDistance(currentHash, item.hash) <= 12 && item.format === currentFormat) { matchedItem = item; break; }
+            if (hammingDistance(currentHash, item.hash) <= 12 && item.format === format) { matchedItem = item; break; }
         }
         
-        let formatLabelText = currentFormat === 'compact' ? 'สรุปย่อ' : (currentFormat === 'detailed' ? 'ละเอียดมาก' : '3 ย่อหน้า');
+        let formatLabelText = format === 'compact' ? 'สรุปย่อ' : (format === 'detailed' ? 'ละเอียดมาก' : '3 ย่อหน้า');
 
         if (matchedItem) {
             document.getElementById('status-tag').innerHTML = `<i class="fa-solid fa-database"></i> ดึงจากฐานข้อมูล (${formatLabelText})`;
             document.getElementById('result-title').innerText = matchedItem.title;
-            // เพิ่มการขึ้นบรรทัดใหม่ให้สวยงาม
             document.getElementById('result-desc').innerHTML = matchedItem.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
             document.getElementById('result-img').src = base64Image;
             Swal.close(); showScreen('result-screen');
         } else {
             document.getElementById('status-tag').innerHTML = `<i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI (${formatLabelText})`;
             try {
-                const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "analyze", image: base64Image, format: currentFormat }) });
+                const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "analyze", image: base64Image, format: format }) });
                 const aiResult = await res.json();
                 if (aiResult.error) throw new Error(aiResult.error);
 
@@ -361,7 +362,7 @@
                 document.getElementById('result-img').src = base64Image;
                 Swal.close(); showScreen('result-screen');
                 
-                setTimeout(() => { autoSaveKnowledgeCard(currentHash, aiResult.title, aiResult.description, currentFormat); }, 1000);
+                setTimeout(() => { autoSaveKnowledgeCard(currentHash, aiResult.title, aiResult.description, format); }, 1000);
             } catch (error) { Swal.fire({ icon: 'error', title: 'ข้อผิดพลาด', text: error.message, customClass: { popup: 'swal-glass' }}); resetToHome(); }
         }
     }
