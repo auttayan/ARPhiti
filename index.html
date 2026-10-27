@@ -21,7 +21,7 @@
             margin: 0; font-family: 'Prompt', sans-serif;
             color: var(--text-light); min-height: 100vh;
             display: flex; flex-direction: column; overflow-x: hidden;
-            padding-bottom: 110px; /* เพิ่มระยะเผื่อ Footer และ Bottom Nav */
+            padding-bottom: 110px; 
             background: linear-gradient(-45deg, #11052C, #3D087B, #200445, #4A0E4E);
             background-size: 400% 400%;
             animation: liquidGradient 15s ease infinite; position: relative;
@@ -33,59 +33,71 @@
         .blob-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: #00F0FF; animation-delay: -5s; }
         @keyframes float { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.1); } 100% { transform: translateY(0) scale(1); } }
 
+        /* แอนิเมชัน Fade-in สำหรับ UI */
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
         .container { max-width: 600px; margin: 0 auto; padding: 20px; width: 100%; position: relative; z-index: 1; }
         
         .liquid-glass {
             background: var(--glass-bg); backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border); border-radius: 30px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); padding: 25px;
+            box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.4); padding: 30px 25px;
         }
 
         .hero-text { font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
-        .text-yellow { color: var(--primary-yellow); text-shadow: 0 0 10px rgba(255, 204, 0, 0.5); }
-        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 25px; font-weight: 300; }
-        .cover-img { width: 100%; border-radius: 20px; margin-bottom: 20px; border: 1px solid var(--glass-border); }
+        .text-yellow { color: var(--primary-yellow); text-shadow: 0 0 15px rgba(255, 204, 0, 0.6); }
+        .subtitle { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-bottom: 25px; font-weight: 300; line-height: 1.5; }
+        .cover-img { width: 100%; border-radius: 20px; margin-bottom: 25px; border: 1px solid var(--glass-border); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
         .btn-glass {
             background: linear-gradient(135deg, #ffcc00, #ff8800); color: #11052C;
             border: none; padding: 15px 30px; border-radius: 30px;
             font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%;
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.3); font-family: 'Prompt', sans-serif;
+            box-shadow: 0 8px 25px rgba(255, 153, 0, 0.4); font-family: 'Prompt', sans-serif;
+            transition: all 0.3s ease;
         }
-        .btn-glass:active { transform: scale(0.95); }
+        .btn-glass:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255, 153, 0, 0.6); }
+        .btn-glass:active { transform: translateY(1px); }
         .btn-cancel { background: rgba(255,255,255,0.1); color: #fff; box-shadow: none; border: 1px solid var(--glass-border); }
+        .btn-cancel:hover { background: rgba(255,255,255,0.2); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2); }
 
-        #camera-screen video { width: 100%; border-radius: 24px; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover; }
+        #camera-screen video { width: 100%; border-radius: 24px; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: cover; border: 2px solid var(--primary-yellow); }
 
-        /* แก้ไขสัดส่วนแผ่นความรู้ */
+        /* แก้ไขภาพไม่ให้เสียสัดส่วน (100% ครบถ้วน) */
         .card-wrapper {
             background: #ffffff; border-radius: 24px; color: #1a1a1a;
-            overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-bottom: 20px;
+            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6); margin-bottom: 20px;
         }
         .card-img-container {
             width: 100%; 
-            background: #111; /* พื้นหลังสีเข้มเวลาภาพไม่เต็มขอบ */
+            background: #111; /* พื้นหลังสีเข้มรองรับภาพแนวตั้ง/แนวนอน */
+            padding: 15px; /* เพิ่มพื้นที่รอบรูปนิดหน่อยให้ดูสวยขึ้น */
             display: flex; justify-content: center; align-items: center;
+            border-bottom: 1px solid #eee;
         }
         .card-img-container img {
             width: 100%;
-            max-height: 350px;
-            object-fit: contain; /* ป้องกันภาพโดนบีบ */
+            max-height: 400px;
+            object-fit: contain; /* ป้องกันภาพโดนตัด/บีบ 100% */
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             display: block;
         }
         
         .card-body { padding: 25px; }
         .card-tag { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); color: #3D087B; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
         .card-title { font-size: 1.5rem; font-weight: 700; margin: 0 0 15px 0; color: #1a1a1a; }
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: #444; font-weight: 300; }
-        .card-footer-credit { background-color: #f8f9fa; color: #666; text-align: center; padding: 12px; font-size: 0.8rem; font-weight: 500; border-top: 1px solid #eee; }
+        .card-desc { font-size: 0.95rem; line-height: 1.6; color: #444; font-weight: 300; text-align: justify; }
+        
+        /* Footer ในแผ่นความรู้ */
+        .card-footer-credit { background-color: #f8f9fa; color: #555; text-align: center; padding: 15px; font-size: 0.85rem; font-weight: 500; border-top: 1px solid #eee; }
 
-        /* Footer หน้าเว็บรวม */
+        /* Footer หน้าแรกเว็บรวม */
         .web-footer {
-            position: absolute; bottom: 85px; left: 0; width: 100%;
-            text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.6);
-            z-index: 10;
+            text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.6);
+            margin-top: 30px; font-weight: 300; letter-spacing: 0.5px;
         }
 
         /* Bottom Nav */
@@ -96,21 +108,30 @@
             padding: 15px 0 25px 0; border-top: 1px solid rgba(255,255,255,0.1);
             border-top-left-radius: 30px; border-top-right-radius: 30px; z-index: 1000;
         }
-        .nav-item { color: rgba(255,255,255,0.5); text-align: center; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; cursor:pointer;}
+        .nav-item { color: rgba(255,255,255,0.5); text-align: center; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; cursor:pointer; transition: 0.3s;}
+        .nav-item:hover { color: var(--text-light); }
         .nav-item i { font-size: 1.3rem; }
         .nav-item.active { color: var(--primary-yellow); }
+        
+        /* ปุ่มสแกนแบบล้ำสมัย มีแสงกระพริบ */
         .nav-scan-btn {
             background: linear-gradient(135deg, #ffcc00, #ff8800);
-            width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            color: #11052C; font-size: 2rem; transform: translateY(-25px); box-shadow: 0 10px 25px rgba(255, 153, 0, 0.4);
+            width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: #11052C; font-size: 2.2rem; transform: translateY(-30px); 
             border: 6px solid #1A0A3A; cursor: pointer;
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 204, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
         }
 
         .hidden { display: none !important; }
         
-        .swal-glass { background: rgba(30, 15, 45, 0.85) !important; backdrop-filter: blur(15px) !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 25px !important; color: white !important; font-family: 'Prompt', sans-serif !important; }
+        .swal-glass { background: rgba(30, 15, 45, 0.9) !important; backdrop-filter: blur(15px) !important; border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 25px !important; color: white !important; font-family: 'Prompt', sans-serif !important; }
         .swal-title { color: var(--primary-yellow) !important; }
-        .swal-confirm-btn { background: linear-gradient(135deg, #ffcc00, #ff8800) !important; color: #11052C !important; border-radius: 20px !important; font-weight: 600 !important; font-family: 'Prompt', sans-serif !important;}
+        .swal-confirm-btn { background: linear-gradient(135deg, #ffcc00, #ff8800) !important; color: #11052C !important; border-radius: 20px !important; font-weight: 600 !important; font-family: 'Prompt', sans-serif !important; padding: 12px 25px !important;}
     </style>
 </head>
 <body>
@@ -118,16 +139,24 @@
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
-<div class="container">
-    <div id="home-screen" class="liquid-glass text-center hidden">
+<div class="container fade-in">
+    <!-- หน้าแรก (Home Screen) -->
+    <div id="home-screen" class="liquid-glass text-center hidden fade-in">
         <div class="hero-text">Cultural <br><span class="text-yellow">Knowledge AR</span></div>
-        <p class="subtitle">ระบบประมวลผลและสร้างแผ่นความรู้อัตโนมัติ สำหรับพิธีการศพที่ได้รับพระราชทาน ศาสนพิธี และศิลปวัฒนธรรม</p>
+        <p class="subtitle">ระบบประมวลผลและสร้างแผ่นความรู้อัตโนมัติ<br>สำหรับพิธีการศพที่ได้รับพระราชทาน ศาสนพิธี และศิลปวัฒนธรรม</p>
         <img src="https://i.postimg.cc/q7vF4Bnd/n-xngph-th-AR-ph-ch-wy-AI-re-xng-saeng.png" alt="Cover" class="cover-img">
-        <button class="btn-glass" onclick="openCameraUI()"><i class="fa-solid fa-camera-retro"></i> สแกนภาพวิเคราะห์</button>
+        <button class="btn-glass" onclick="openCameraUI()"><i class="fa-solid fa-camera-retro"></i> เปิดกล้องสแกน AR</button>
+        
+        <!-- Footer แสดงที่หน้าแรก -->
+        <div class="web-footer">
+            <i class="fa-solid fa-code"></i> พัฒนาระบบโดย<br>
+            <strong style="color:var(--primary-yellow);">อุทยาน ไพรวัลย์</strong> นวธ. สวจ.มหาสารคาม
+        </div>
     </div>
 
-    <div id="camera-screen" class="hidden liquid-glass text-center">
-        <h3 style="margin-top:0; font-weight: 500;">เล็งไปที่วัตถุหรือพิธีการ</h3>
+    <!-- หน้ากล้อง -->
+    <div id="camera-screen" class="hidden liquid-glass text-center fade-in">
+        <h3 style="margin-top:0; font-weight: 500;">เล็งกล้องไปที่วัตถุหรือพิธีการ</h3>
         <video id="videoElement" autoplay playsinline muted></video>
         <canvas id="canvasElement" class="hidden"></canvas>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
@@ -136,7 +165,8 @@
         </div>
     </div>
 
-    <div id="result-screen" class="hidden">
+    <!-- หน้าแสดงผล -->
+    <div id="result-screen" class="hidden fade-in">
         <div id="knowledge-card" class="card-wrapper">
             <div class="card-img-container">
                 <img id="result-img" src="" alt="Captured">
@@ -146,20 +176,18 @@
                 <h2 class="card-title" id="result-title">ชื่อหัวข้อ</h2>
                 <div class="card-desc" id="result-desc">รายละเอียดข้อมูล...</div>
             </div>
-            <div class="card-footer-credit">อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม : ผู้พัฒนาระบบ</div>
+            <!-- Footer ในภาพแผ่นความรู้ -->
+            <div class="card-footer-credit"><i class="fa-solid fa-bookmark"></i> อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม : ผู้พัฒนาระบบ</div>
         </div>
         
-        <div style="display: flex; gap:10px; flex-direction: column;">
-            <button class="btn-glass" onclick="manualDownloadCard()"><i class="fa-solid fa-download"></i> ดาวน์โหลดรูปภาพ</button>
-            <button class="btn-glass btn-cancel" onclick="resetToHome()">สแกนใหม่</button>
+        <div style="display: flex; gap:12px; flex-direction: column;">
+            <button class="btn-glass" onclick="manualDownloadCard()"><i class="fa-solid fa-download"></i> ดาวน์โหลดรูปลงเครื่อง</button>
+            <button class="btn-glass btn-cancel" onclick="resetToHome()">สแกนภาพใหม่</button>
         </div>
     </div>
 </div>
 
-<footer class="web-footer">
-    พัฒนาระบบโดย: อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม
-</footer>
-
+<!-- Bottom Navigation -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="resetToHome()"><i class="fa-solid fa-house"></i><span>หน้าแรก</span></div>
     <div class="nav-scan-btn" onclick="openCameraUI()"><i class="fa-solid fa-qrcode"></i></div>
@@ -167,45 +195,46 @@
 </div>
 
 <script>
-    // ***************************************************************
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec"; // นำ URL ใหม่มาใส่
-    // ***************************************************************
+    // URL ของ Web App GAS ของคุณ (อัปเดตแล้ว)
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec";
 
-    let dbCache = []; // เก็บฐานข้อมูลเพื่อเช็คภาพซ้ำ
+    let dbCache = [];
     const video = document.getElementById('videoElement');
     const canvas = document.getElementById('canvasElement');
     let stream = null;
 
-    // เริ่มต้นระบบ: แสดง Popup อธิบาย ก่อนเข้าเว็บ
+    // เริ่มต้นระบบ: แสดง Popup อธิบาย
     window.onload = () => {
         Swal.fire({
-            title: 'ยินดีต้อนรับสู่ระบบ AR',
-            html: `ระบบนี้ใช้สำหรับสแกนภาพและวิเคราะห์องค์ความรู้ด้าน<br><b>ศาสนพิธี และศิลปวัฒนธรรม</b><br><br>
-                   <small style="color:#aaa;">* เมื่อถ่ายภาพ ระบบจะวิเคราะห์ สร้างแผ่นความรู้ และบันทึกรูปภาพไว้ในฐานข้อมูลอัตโนมัติ</small>`,
+            title: 'ยินดีต้อนรับสู่ AR Knowledge',
+            html: `ระบบอัจฉริยะวิเคราะห์องค์ความรู้ด้าน<br><b style="color:#ffcc00;">ศาสนพิธี และศิลปวัฒนธรรม</b><br><br>
+                   <small style="color:#ddd;">* ระบบจะวิเคราะห์ภาพพร้อมระบุแหล่งอ้างอิง และบันทึกเป็นแผ่นความรู้ลงฐานข้อมูลโดยอัตโนมัติ</small>`,
             icon: 'info',
-            confirmButtonText: '<i class="fa-solid fa-check"></i> รับทราบและเข้าสู่ระบบ',
+            confirmButtonText: '<i class="fa-solid fa-arrow-right-to-bracket"></i> รับทราบและเข้าสู่ระบบ',
             allowOutsideClick: false,
             customClass: { popup: 'swal-glass', title: 'swal-title', confirmButton: 'swal-confirm-btn' }
         }).then(() => {
             document.getElementById('home-screen').classList.remove('hidden');
-            loadDatabaseCache(); // โหลดฐานข้อมูลภาพซ้ำในพื้นหลัง
+            loadDatabaseCache(); 
         });
     };
 
-    // ฟังก์ชันโหลดข้อมูลที่เคยสแกนจาก GAS
     async function loadDatabaseCache() {
         try {
             const response = await fetch(GAS_URL);
             dbCache = await response.json();
-            console.log(`Loaded ${dbCache.length} cached items.`);
-        } catch (e) { console.log("Cache load failed."); }
+        } catch (e) { console.log("Cache load error."); }
     }
 
     function showScreen(screenId) {
-        document.getElementById('home-screen').classList.add('hidden');
-        document.getElementById('camera-screen').classList.add('hidden');
-        document.getElementById('result-screen').classList.add('hidden');
-        document.getElementById(screenId).classList.remove('hidden');
+        document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+        const screen = document.getElementById(screenId);
+        screen.classList.remove('hidden');
+        
+        // รีเฟรชแอนิเมชัน Fade-in
+        screen.classList.remove('fade-in');
+        void screen.offsetWidth; 
+        screen.classList.add('fade-in');
     }
 
     function resetToHome() {
@@ -223,13 +252,12 @@
                 stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
             } catch (err2) {
-                Swal.fire({ icon: 'error', title: 'เปิดกล้องไม่ได้!', text: 'กรุณาอนุญาตกล้อง', customClass: { popup: 'swal-glass', confirmButton: 'swal-confirm-btn' }});
+                Swal.fire({ icon: 'error', title: 'ข้อผิดพลาด', text: 'ไม่สามารถเปิดกล้องได้ กรุณาตรวจสอบสิทธิ์', customClass: { popup: 'swal-glass', confirmButton: 'swal-confirm-btn' }});
                 resetToHome();
             }
         }
     }
 
-    // อัลกอริทึม dHash (แปลงภาพเป็นค่า 64-bit เพื่อตรวจภาพซ้ำ)
     async function getDHash(base64Image) {
         return new Promise((resolve) => {
             const img = new Image();
@@ -254,7 +282,6 @@
         });
     }
 
-    // เทียบความเหมือนของภาพ (Hamming Distance)
     function hammingDistance(h1, h2) {
         let dist = 0;
         for (let i = 0; i < 64; i++) { if (h1[i] !== h2[i]) dist++; }
@@ -269,46 +296,43 @@
         showScreen('home-screen');
 
         Swal.fire({
-            title: 'กำลังตรวจสอบข้อมูล...',
-            html: '<i class="fa-solid fa-spinner fa-spin fa-2x text-yellow"></i>',
+            title: 'กำลังสืบค้นข้อมูล...',
+            html: '<i class="fa-solid fa-spinner fa-spin fa-3x" style="color:var(--primary-yellow); margin-top:20px;"></i>',
             allowOutsideClick: false, showConfirmButton: false,
             customClass: { popup: 'swal-glass', title: 'swal-title' }
         });
 
-        // 1. ตรวจจับภาพซ้ำโดยใช้ dHash
         const currentHash = await getDHash(base64Image);
         let matchedItem = null;
         for (let item of dbCache) {
-            if (hammingDistance(currentHash, item.hash) <= 12) { // หากความต่างของภาพ < 12 ถือว่าซ้ำ
+            if (hammingDistance(currentHash, item.hash) <= 12) {
                 matchedItem = item; break;
             }
         }
 
         if (matchedItem) {
-            // ดึงจากฐานข้อมูล ไม่ใช้ AI
             document.getElementById('status-tag').innerHTML = '<i class="fa-solid fa-database"></i> ดึงจากฐานข้อมูล';
             document.getElementById('result-title').innerText = matchedItem.title;
-            document.getElementById('result-desc').innerText = matchedItem.description;
+            // ใช้ innerHTML เพื่อให้รองรับการขึ้นบรรทัดใหม่จาก AI ได้ดีขึ้น
+            document.getElementById('result-desc').innerHTML = matchedItem.description.replace(/\n/g, '<br>');
             document.getElementById('result-img').src = base64Image;
             showScreen('result-screen');
-            Swal.fire({ icon: 'success', title: 'ดึงข้อมูลสำเร็จ!', text: 'พบประวัติในระบบ ไม่ต้องประมวลผลใหม่', timer: 2000, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' }});
+            Swal.fire({ icon: 'success', title: 'พบข้อมูลในระบบ', timer: 2000, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' }});
         } else {
-            // ไม่พบภาพซ้ำ -> ใช้ AI
-            document.getElementById('status-tag').innerHTML = '<i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI';
+            document.getElementById('status-tag').innerHTML = '<i class="fa-solid fa-robot"></i> วิเคราะห์โดย AI & อ้างอิงวิชาการ';
             try {
-                Swal.update({ title: 'AI กำลังวิเคราะห์และจัดทำแผ่นความรู้...' });
+                Swal.update({ title: 'AI กำลังประมวลผลพร้อมจัดหาแหล่งอ้างอิง...' });
                 const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "analyze", image: base64Image }) });
                 const aiResult = await res.json();
                 
                 if (aiResult.error) throw new Error(aiResult.error);
 
                 document.getElementById('result-title').innerText = aiResult.title;
-                document.getElementById('result-desc').innerText = aiResult.description;
+                document.getElementById('result-desc').innerHTML = aiResult.description.replace(/\n/g, '<br>');
                 document.getElementById('result-img').src = base64Image;
                 showScreen('result-screen');
                 
-                // ถ่ายภาพแผ่นความรู้และส่งไปบันทึกลงฐานข้อมูล(Sheet+Drive) อัตโนมัติ
-                setTimeout(() => { autoSaveKnowledgeCard(currentHash, aiResult.title, aiResult.description); }, 800);
+                setTimeout(() => { autoSaveKnowledgeCard(currentHash, aiResult.title, aiResult.description); }, 1000);
             } catch (error) {
                 Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: error.message, customClass: { popup: 'swal-glass', confirmButton: 'swal-confirm-btn' }});
                 resetToHome();
@@ -316,24 +340,21 @@
         }
     }
 
-    // ฟังก์ชันถ่ายแผ่นความรู้และบันทึก Background
     function autoSaveKnowledgeCard(hash, title, desc) {
         html2canvas(document.getElementById('knowledge-card'), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
             const cardBase64 = canvas.toDataURL('image/png');
             fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "save", hash: hash, title: title, description: desc, cardImage: cardBase64 }) })
             .then(() => {
-                Swal.fire({ icon: 'success', title: 'บันทึกฐานข้อมูลสำเร็จ!', timer: 2000, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' }});
-                // เพิ่มเข้า Cache ทันทีเผื่อสแกนซ้ำรอบถัดไป
+                Swal.fire({ icon: 'success', title: 'บันทึกฐานข้อมูลสำเร็จ!', text: 'เก็บข้อมูลเข้า Google Drive แล้ว', timer: 2500, showConfirmButton: false, customClass: { popup: 'swal-glass', title: 'swal-title' }});
                 dbCache.push({ hash: hash, title: title, description: desc });
             });
         });
     }
 
-    // ฟังก์ชันดาวน์โหลดเก็บลงเครื่องด้วยตนเอง
     function manualDownloadCard() {
         html2canvas(document.getElementById('knowledge-card'), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'Knowledge_Card_' + new Date().getTime() + '.png';
+            link.download = 'Cultural_AR_Knowledge_' + new Date().getTime() + '.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
         });
