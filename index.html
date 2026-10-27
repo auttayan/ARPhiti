@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR Cultural Knowledge</title>
     <!-- Google Fonts: Kanit -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- html2canvas -->
@@ -15,212 +15,326 @@
     
     <style>
         :root {
-            --primary-orange: #ff8c00;
-            --bg-dark: #120e0c;
+            --bg-color: #0d0614; /* ม่วงเข้มแบบแอป[cite: 2] */
+            --primary-yellow: #ffc107; /* เหลืองทอง[cite: 2] */
+            --card-bg: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
         }
+        
+        * { box-sizing: border-box; }
+        
         body {
             margin: 0;
             font-family: 'Kanit', sans-serif;
-            background: linear-gradient(135deg, #2c1a12 0%, #110d0a 100%);
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-light);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
+            padding-bottom: 80px; /* เผื่อพื้นที่ให้ Bottom Nav */
         }
-        /* Glassmorphism Container */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-        }
+
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
+            width: 100%;
         }
-        .hidden { display: none !important; }
-        
+
+        /* Typography & Header */
+        .hero-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+        .text-yellow { color: var(--primary-yellow); }
+        .subtitle { color: #a097ad; font-size: 0.95rem; margin-bottom: 25px; }
+
+        .cover-img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
         /* Buttons */
-        .btn-orange {
-            background: linear-gradient(135deg, #ffa733 0%, var(--primary-orange) 100%);
-            color: white;
+        .btn-yellow {
+            background-color: var(--primary-yellow);
+            color: #000;
             border: none;
             padding: 15px 30px;
             border-radius: 30px;
             font-size: 1.1rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.2s;
             font-family: 'Kanit', sans-serif;
         }
-        .btn-orange:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
-        }
-        
-        /* Screens */
-        #welcome-screen img {
-            width: 100%;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        
+        .btn-yellow:active { transform: scale(0.98); }
+
+        /* Camera Section */
         #camera-screen video {
             width: 100%;
             border-radius: 20px;
             background-color: #000;
-            object-fit: cover;
-            border: 2px solid rgba(255, 140, 0, 0.5);
+            border: 2px solid var(--primary-yellow);
+            margin-bottom: 15px;
+        }
+
+        /* Knowledge Card (แผ่นองค์ความรู้สำหรับบันทึก) */
+        .card-wrapper {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            color: var(--text-dark);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+            margin-bottom: 20px;
         }
         
-        /* Knowledge Card (สำหรับบันทึก) */
-        #knowledge-card {
-            background: linear-gradient(135deg, rgba(40,25,18,0.9) 0%, rgba(15,10,8,0.9) 100%);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            padding: 20px;
-            border: 1px solid rgba(255, 140, 0, 0.3);
-        }
-        #knowledge-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,140,0,0.1) 0%, transparent 60%);
-            z-index: 0; pointer-events: none;
-        }
-        #card-image {
+        .card-img-container {
             width: 100%;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-            border: 2px solid rgba(255,255,255,0.1);
+            height: 250px;
+            background-color: #eee;
+            overflow: hidden;
         }
-        .card-content {
-            position: relative;
-            z-index: 1;
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        .card-tag {
+            background-color: #ede7f6;
+            color: #5e35b1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
         }
         .card-title {
-            color: var(--primary-orange);
-            font-size: 1.5rem;
-            margin: 0 0 10px 0;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            color: #1a1a1a;
         }
         .card-desc {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #e0e0e0;
-            margin-bottom: 10px;
+            color: #555;
+            text-align: justify;
         }
-        .watermark {
+        
+        /* Footer ในแผ่นความรู้ */
+        .card-footer-credit {
+            background-color: var(--bg-color);
+            color: var(--primary-yellow);
+            text-align: center;
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border-top: 2px solid var(--primary-yellow);
+        }
+
+        /* Bottom Navigation แบบแอป[cite: 2] */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #150a21;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0 20px 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .nav-item {
+            color: #888;
+            text-align: center;
             font-size: 0.75rem;
-            color: rgba(255,255,255,0.4);
-            text-align: right;
-            margin-top: 15px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
         }
+        .nav-item i { font-size: 1.2rem; }
+        .nav-item.active { color: var(--text-light); }
+        
+        /* ปุ่มสแกนตรงกลางเมนู[cite: 2] */
+        .nav-scan-btn {
+            background-color: var(--primary-yellow);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-size: 1.8rem;
+            transform: translateY(-20px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+            border: 5px solid var(--bg-color);
+            cursor: pointer;
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- หน้าแรก -->
-    <div id="welcome-screen" class="glass-panel text-center">
-        <img src="https://i.postimg.cc/q7vF4Bnd/n-xngph-th-AR-ph-ch-wy-AI-re-xng-saeng.png" alt="AR Cover">
-        <h2 style="margin-top: 0;">ระบบวิเคราะห์องค์ความรู้ AR</h2>
-        <p style="color: #bbb;">วิเคราะห์ภาพ ศาสนพิธี พิธีการศพฯ และศิลปวัฒนธรรม ด้วย AI</p>
-        <button class="btn-orange" onclick="startCamera()"><i class="fa-solid fa-camera"></i> เปิดกล้องเริ่มใช้งาน</button>
+    
+    <!-- หน้าแรก (Home Screen) -->
+    <div id="home-screen">
+        <div class="hero-text">
+            Cultural <br>
+            <span class="text-yellow">Knowledge AR</span>
+        </div>
+        <p class="subtitle">ระบบประมวลผลและสร้างแผ่นความรู้อัตโนมัติ สำหรับพิธีการศพที่ได้รับพระราชทาน ศาสนพิธี และศิลปวัฒนธรรม</p>
+        
+        <img src="https://i.postimg.cc/q7vF4Bnd/n-xngph-th-AR-ph-ch-wy-AI-re-xng-saeng.png" alt="Cover" class="cover-img">
+        
+        <button class="btn-yellow" onclick="openCameraUI()">
+            <i class="fa-solid fa-camera"></i> เริ่มสแกน AR
+        </button>
     </div>
 
-    <!-- หน้ากล้อง -->
-    <div id="camera-screen" class="glass-panel hidden">
-        <h3 style="text-align: center; margin-top:0;">สแกนวัตถุ / พิธีการ</h3>
+    <!-- หน้ากล้อง (Camera Screen) -->
+    <div id="camera-screen" class="hidden text-center">
+        <h3 style="margin-top:0;">เล็งกล้องไปที่วัตถุหรือพิธีการ</h3>
         <video id="videoElement" autoplay playsinline></video>
-        <canvas id="canvasElement" style="display: none;"></canvas>
-        <div style="margin-top: 20px; display: flex; gap: 10px;">
-            <button class="btn-orange" onclick="captureImage()"><i class="fa-solid fa-expand"></i> วิเคราะห์ภาพ</button>
-            <button class="btn-orange" style="background: #555;" onclick="stopCamera()"><i class="fa-solid fa-times"></i> ยกเลิก</button>
+        <canvas id="canvasElement" class="hidden"></canvas>
+        
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-yellow" onclick="captureAndProcess()">
+                <i class="fa-solid fa-expand"></i> วิเคราะห์ภาพนี้
+            </button>
+            <button class="btn-yellow" style="background-color: #333; color: white;" onclick="resetToHome()">
+                ยกเลิก
+            </button>
         </div>
     </div>
 
-    <!-- หน้าแสดงผลองค์ความรู้ -->
+    <!-- หน้าแสดงผลแผ่นความรู้ (Result Screen) -->
     <div id="result-screen" class="hidden">
-        <div id="knowledge-card">
-            <img id="card-image" src="" alt="Captured Image">
-            <div class="card-content">
-                <h2 class="card-title" id="card-title">หัวข้อ</h2>
-                <div class="card-desc" id="card-desc">รายละเอียดข้อมูล...</div>
-                <div class="watermark"><i class="fa-solid fa-microchip"></i> ประมวลผลโดย AR Cultural AI</div>
+        <h3 style="text-align: center; margin-top:0; color: var(--primary-yellow);">ประมวลผลสำเร็จ!</h3>
+        
+        <!-- โครงสร้างแผ่นความรู้ที่จะถูกแปลงเป็นภาพ -->
+        <div id="knowledge-card" class="card-wrapper">
+            <div class="card-img-container">
+                <img id="result-img" src="" alt="Captured">
+            </div>
+            <div class="card-body">
+                <div class="card-tag"><i class="fa-solid fa-landmark"></i> ข้อมูลศิลปวัฒนธรรม</div>
+                <h2 class="card-title" id="result-title">ชื่อหัวข้อ</h2>
+                <div class="card-desc" id="result-desc">รายละเอียดข้อมูล...</div>
+            </div>
+            <!-- Footer เครดิตผู้พัฒนาตามที่ระบุ -->
+            <div class="card-footer-credit">
+                อุทยาน ไพรวัลย์ นวธ. สวจ.มหาสารคาม : ผู้พัฒนาระบบ
             </div>
         </div>
         
-        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
-            <button class="btn-orange" onclick="downloadCard()"><i class="fa-solid fa-download"></i> บันทึกแผ่นองค์ความรู้ (ภาพ)</button>
-            <button class="btn-orange" style="background: transparent; border: 1px solid var(--primary-orange); color: var(--primary-orange);" onclick="resetApp()">สแกนภาพใหม่</button>
-        </div>
+        <button class="btn-yellow" onclick="downloadKnowledgeCard()" style="margin-bottom: 10px;">
+            <i class="fa-solid fa-download"></i> บันทึกแผ่นความรู้เป็นภาพ
+        </button>
+        <button class="btn-yellow" style="background-color: transparent; color: var(--primary-yellow); border: 2px solid var(--primary-yellow);" onclick="resetToHome()">
+            สแกนภาพใหม่
+        </button>
+    </div>
+
+</div>
+
+<!-- Bottom Navigation[cite: 2] -->
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="resetToHome()">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </div>
+    <div class="nav-scan-btn" onclick="openCameraUI()">
+        <i class="fa-solid fa-qrcode"></i>
+    </div>
+    <div class="nav-item" onclick="Swal.fire('ประวัติ', 'ฟังก์ชันประวัติการสแกนจะมาในเร็วๆ นี้', 'info')">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>History</span>
     </div>
 </div>
 
 <script>
-    // *****************************************************************
-    // นำ URL ของ Google Apps Script Web App ของคุณมาใส่ที่ตัวแปรนี้
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec"; 
-    // *****************************************************************
+    // URL ของ Web App GAS ของคุณ
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbz7mxfvF8rUl3qjjx0wXHuus0WIUNfTJBj41s_CEj8j3NoblSDnu5gTJODXHXa5zXe3tQ/exec";
 
     const video = document.getElementById('videoElement');
     const canvas = document.getElementById('canvasElement');
     let stream = null;
 
-    async function startCamera() {
-        document.getElementById('welcome-screen').classList.add('hidden');
-        document.getElementById('camera-screen').classList.remove('hidden');
-        
+    // สลับหน้าจอ
+    function showScreen(screenId) {
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('camera-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.add('hidden');
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    function resetToHome() {
+        if (stream) { stream.getTracks().forEach(track => track.stop()); }
+        showScreen('home-screen');
+    }
+
+    async function openCameraUI() {
+        showScreen('camera-screen');
         try {
             stream = await navigator.mediaDevices.getUserMedia({ 
                 video: { facingMode: "environment" } 
             });
             video.srcObject = stream;
         } catch (err) {
-            Swal.fire('ข้อผิดพลาด', 'ไม่สามารถเข้าถึงกล้องได้: ' + err.message, 'error');
-            resetApp();
+            Swal.fire('ข้อผิดพลาด', 'กรุณาอนุญาตการเข้าถึงกล้องถ่ายรูป', 'error');
+            resetToHome();
         }
     }
 
-    function stopCamera() {
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-        }
-        resetApp();
-    }
-
-    async function captureImage() {
+    async function captureAndProcess() {
+        // วาดภาพจากวิดีโอลง Canvas
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0);
         const base64Image = canvas.toDataURL('image/jpeg', 0.8);
         
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-        }
-
-        document.getElementById('camera-screen').classList.add('hidden');
+        // ปิดกล้อง
+        if (stream) { stream.getTracks().forEach(track => track.stop()); }
         
         Swal.fire({
-            title: 'กำลังวิเคราะห์ด้วย AI...',
-            text: 'ค้นหาองค์ความรู้และบันทึกลงระบบ',
+            title: 'กำลังใช้ AI ประมวลผล...',
+            text: 'รอสักครู่ ระบบกำลังค้นหาข้อมูลที่เกี่ยวข้อง',
             allowOutsideClick: false,
             didOpen: () => { Swal.showLoading(); }
         });
 
         try {
-            // ส่งข้อมูลไปยัง Google Apps Script (ใช้วิธี Content-Type: text/plain เพื่อเลี่ยง CORS)
-            const response = await fetch(GAS_WEB_APP_URL, {
+            // ส่งข้อมูลไปที่ GAS Backend
+            const response = await fetch(GAS_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({ image: base64Image })
@@ -230,49 +344,52 @@
             Swal.close();
 
             if (result.status === 'success') {
-                document.getElementById('result-screen').classList.remove('hidden');
-                document.getElementById('card-image').src = base64Image;
-                document.getElementById('card-title').innerText = result.title;
-                document.getElementById('card-desc').innerText = result.description;
+                // จัดเตรียมข้อมูลลงในแผ่นความรู้
+                document.getElementById('result-img').src = base64Image;
+                document.getElementById('result-title').innerText = result.title;
+                document.getElementById('result-desc').innerText = result.description;
+                
+                showScreen('result-screen');
             } else {
-                Swal.fire('เกิดข้อผิดพลาด', result.message || 'ไม่สามารถวิเคราะห์ได้', 'error');
-                resetApp();
+                Swal.fire('เกิดข้อผิดพลาด', result.message, 'error');
+                resetToHome();
             }
         } catch (error) {
             Swal.close();
-            Swal.fire('ข้อผิดพลาดการเชื่อมต่อ', error.message, 'error');
-            resetApp();
+            Swal.fire('การเชื่อมต่อล้มเหลว', 'ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้', 'error');
+            resetToHome();
         }
     }
 
-    function downloadCard() {
-        const card = document.getElementById('knowledge-card');
+    // ฟังก์ชันสร้างแผ่นความรู้เป็นรูปภาพ โดยไม่ใช้ AI
+    function downloadKnowledgeCard() {
+        const cardElement = document.getElementById('knowledge-card');
         
         Swal.fire({
-            title: 'กำลังสร้างแผ่นภาพ...',
+            title: 'กำลังสร้างแผ่นภาพความรู้...',
             allowOutsideClick: false,
             didOpen: () => { Swal.showLoading(); }
         });
 
-        // ใช้ html2canvas เพื่อเรนเดอร์ div ออกมาเป็นภาพ
-        html2canvas(card, { 
-            scale: 2, // เพิ่มความละเอียดภาพ
-            backgroundColor: "#150d0a",
+        // ใช้ html2canvas เรนเดอร์ DOM เป็น Image
+        html2canvas(cardElement, {
+            scale: 2, // เพิ่มความคมชัดระดับ HD
+            backgroundColor: "#ffffff",
             useCORS: true
         }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'Knowledge_AR_' + new Date().getTime() + '.png';
+            link.download = 'Knowledge_Card_' + new Date().getTime() + '.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
+            
             Swal.close();
-            Swal.fire('สำเร็จ', 'บันทึกแผ่นองค์ความรู้เรียบร้อยแล้ว', 'success');
+            Swal.fire({
+                icon: 'success',
+                title: 'บันทึกสำเร็จ!',
+                text: 'แผ่นความรู้ถูกบันทึกลงในเครื่องของคุณแล้ว',
+                confirmButtonColor: '#ffc107'
+            });
         });
-    }
-
-    function resetApp() {
-        document.getElementById('welcome-screen').classList.remove('hidden');
-        document.getElementById('camera-screen').classList.add('hidden');
-        document.getElementById('result-screen').classList.add('hidden');
     }
 </script>
 
